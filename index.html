@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>오늘의 갈릴리 라디오</title>
+<meta name="description" content="위로의 아들, DJ 바나바와 함께하는 나만의 기독교 라디오">
+<meta name="theme-color" content="#0d1320">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="갈릴리 라디오">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #0d1320;
+    --panel: #151d2c;
+    --panel-2: #1b2538;
+    --line: #283550;
+    --ink: #eef1f6;
+    --muted: #94a1b9;
+    --amber: #f4b35a;
+    --onair: #ff5b4f;
+    --lake: #74b6db;
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #1d2a44 0%, transparent 60%),
+      var(--night);
+    color: var(--ink);
+    font-family: "Noto Sans KR", system-ui, sans-serif;
+    line-height: 1.6;
+  }
+  .radio {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 28px 16px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* 머리글 */
+  header { text-align: center; }
+  .freq {
+    font-size: 12px;
+    letter-spacing: .18em;
+    color: var(--amber);
+  }
+  h1 {
+    font-family: "Gowun Batang", serif;
+    font-size: clamp(28px, 8vw, 36px);
+    margin: 6px 0 2px;
+    font-weight: 700;
+  }
+  .sub { margin: 0; color: var(--muted); font-size: 14px; }
+
+  /* 방송 부스 */
+  .booth {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .lamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    color: var(--muted);
+    transition: all .3s;
+  }
+  .lamp .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #3a4560;
+  }
+  body.live .lamp { color: #fff; border-color: var(--onair); box-shadow: 0 0 18px rgba(255, 91, 79, .35); }
+  body.live .lamp .dot { background: var(--onair); animation: blink 1.6s infinite; }
+  @keyframes blink { 50% { opacity: .35; } }
+
+  .eq { display: flex; align-items: flex-end; gap: 5px; height: 38px; }
+  .eq i {
+    display: block; width: 6px; height: 6px;
+    border-radius: 3px;
+    background: var(--line);
+    transition: background .3s;
+  }
+  body[data-mode="speaking"] .eq i,
+  body[data-mode="song"] .eq i { background: var(--amber); animation: bounce .9s ease-in-out infinite; }
+  body[data-mode="listening"] .eq i { background: var(--lake); animation: breathe 2.4s ease-in-out infinite; }
+  .eq i:nth-child(2) { animation-delay: -.2s !important; }
+  .eq i:nth-child(3) { animation-delay: -.5s !important; }
+  .eq i:nth-child(4) { animation-delay: -.1s !important; }
+  .eq i:nth-child(5) { animation-delay: -.7s !important; }
+  .eq i:nth-child(6) { animation-delay: -.3s !important; }
+  .eq i:nth-child(7) { animation-delay: -.6s !important; }
+  @keyframes bounce { 0%, 100% { height: 6px; } 50% { height: 36px; } }
+  @keyframes breathe { 0%, 100% { height: 6px; } 50% { height: 14px; } }
+
+  .today { margin: 0; font-size: 13px; color: var(--muted); text-align: center; min-height: 1.4em; }
+  .status { margin: 0; font-size: 15px; color: var(--muted); text-align: center; min-height: 1.6em; }
+  .nick { display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 280px; font-size: 13px; color: var(--muted); }
+  .nick input {
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--panel-2);
+    color: var(--ink);
+    font: 15px "Noto Sans KR", sans-serif;
+    text-align: center;
+  }
+  body.live .nick { display: none; }
+  .np-actions { display: flex; gap: 8px; }
+  .np-actions .ghost { flex: 1; }
+  body.live .status { color: var(--ink); }
+
+  .power {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    width: 100%;
+    max-width: 280px;
+    padding: 15px 20px;
+    border-radius: 999px;
+    font: 700 17px "Noto Sans KR", sans-serif;
+    color: #1b1206;
+    background: var(--amber);
+    transition: transform .15s, background .2s;
+  }
+  .power:hover { transform: translateY(-1px); }
+  .power:disabled { opacity: .6; cursor: wait; transform: none; }
+  body.live .power { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+
+  /* 지금 나오는 곡 */
+  .nowplaying {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .nowplaying[hidden] { display: none; }
+  .np-head { display: flex; justify-content: space-between; align-items: center; }
+  .np-label { font-size: 11px; letter-spacing: .18em; color: var(--amber); }
+  .chip {
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: rgba(116, 182, 219, .15);
+    color: var(--lake);
+  }
+  .nowplaying h2 { font-family: "Gowun Batang", serif; font-size: 21px; margin: 10px 0 0; }
+  .nowplaying .artist { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+  .video { position: relative; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #000; }
+  .video iframe, .video > div { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .ghost {
+    margin-top: 12px;
+    width: 100%;
+    padding: 11px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font: 500 14px "Noto Sans KR", sans-serif;
+    cursor: pointer;
+  }
+  .ghost:hover { border-color: var(--amber); }
+
+  /* 방송 자막 */
+  .log-box {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .log-box h3 { margin: 0 0 10px; font-size: 13px; letter-spacing: .1em; color: var(--muted); font-weight: 500; }
+  #log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; max-height: 340px; overflow-y: auto; }
+  #log:empty::before { content: "방송이 시작되면 DJ와 나눈 이야기가 여기에 자막으로 나와요."; color: var(--muted); font-size: 14px; }
+  #log li { max-width: 88%; padding: 9px 13px; border-radius: 14px; font-size: 15px; }
+  #log li.dj { align-self: flex-start; background: var(--panel-2); border-top-left-radius: 4px; }
+  #log li.dj::before { content: "DJ 바나바"; display: block; font-size: 11px; color: var(--amber); margin-bottom: 2px; }
+  #log li.me { align-self: flex-end; background: rgba(116, 182, 219, .18); border-top-right-radius: 4px; }
+  #log li.song { align-self: center; background: none; color: var(--amber); font-size: 13px; padding: 2px; }
+
+  .type { display: flex; gap: 8px; }
+  .type input {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--ink);
+    font: 15px "Noto Sans KR", sans-serif;
+  }
+  .type input::placeholder { color: var(--muted); }
+  .type button {
+    padding: 0 16px;
+    border-radius: 12px;
+    border: 0;
+    background: var(--panel-2);
+    color: var(--ink);
+    font: 500 14px "Noto Sans KR", sans-serif;
+    cursor: pointer;
+  }
+  .type :disabled { opacity: .5; cursor: not-allowed; }
+
+  /* 찬양 목록 */
+  details.songs {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  details.songs summary { cursor: pointer; color: var(--muted); font-size: 14px; }
+  .mood-group h4 { margin: 14px 0 6px; font-size: 13px; color: var(--lake); font-weight: 500; }
+  .mood-group ol { margin: 0; padding-left: 20px; font-size: 14px; color: var(--ink); }
+  .mood-group li span { color: var(--muted); }
+
+  footer { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.7; }
+  footer strong { color: var(--ink); font-weight: 500; }
+</style>
+</head>
+<body>
+<main class="radio">
+  <header>
+    <div class="freq">FM 43.6 · GALILEE RADIO</div>
+    <h1>오늘의 갈릴리 라디오</h1>
+    <p class="sub">위로의 아들, DJ 바나바와 함께하는 나만의 방송</p>
+  </header>
+
+  <section class="booth">
+    <div class="lamp"><span class="dot"></span>ON AIR</div>
+    <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <p class="today" id="today"></p>
+    <p class="status" id="status">버튼을 누르면 방송이 시작돼요</p>
+    <label class="nick" id="nickBox">
+      <span>DJ가 어떻게 불러 드릴까요? (선택)</span>
+      <input id="nick" maxlength="12" placeholder="예: 지은, 김 전도사" autocomplete="off">
+    </label>
+    <button class="power" id="power">방송 시작</button>
+  </section>
+
+  <section class="nowplaying" id="np" hidden>
+    <div class="np-head"><span class="chip" id="npMood"></span><span class="np-label" id="npLabel">NOW PLAYING</span></div>
+    <h2 id="npTitle"></h2>
+    <p class="artist" id="npArtist"></p>
+    <div class="video"><div id="yt"></div></div>
+    <div class="np-actions">
+      <button class="ghost" id="next" hidden>다음 곡</button>
+      <button class="ghost" id="skip">곡 끝내고 DJ와 이야기하기</button>
+    </div>
+  </section>
+
+  <section class="log-box">
+    <h3>방송 자막</h3>
+    <ol id="log"></ol>
+  </section>
+
+  <form class="type" id="typeForm">
+    <input id="typeInput" placeholder="말 대신 글로 보내기" autocomplete="off" disabled>
+    <button disabled>보내기</button>
+  </form>
+
+  <details class="songs">
+    <summary id="songsSummary">오늘의 찬양 목록</summary>
+    <div id="songList"></div>
+  </details>
+
+  <footer>
+    DJ 바나바는 <strong>AI</strong>입니다. 소개된 성경 구절은 꼭 성경에서 직접 찾아 확인해 보세요.<br>
+    마음이 많이 힘들다면 혼자 견디지 마시고 자살예방 상담전화 <strong>109</strong>(24시간), 섬기는 교회의 목회자와 이야기해 주세요.
+  </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.28.0/dist/lib.iife.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="settings.js"></script>
+<script src="playlist.js"></script>
+<script>
+  const SETTINGS = window.SETTINGS;
+  const SONGS = window.PLAYLIST;
+  const $ = (id) => document.getElementById(id);
+
+  // ---------- 방송 상태 ----------
+  let onAir = false;        // 청취자가 방송을 켜 둔 상태인지
+  let convo = null;         // DJ와의 대화 연결 (연속 재생 중에는 잠시 끊어 둔다)
+  let sessionSeq = 0;       // 연결마다 붙이는 번호 — 일부러 끊은 연결의 '끊김' 알림을 무시하기 위해
+  let activeSeq = 0;
+  let lastAutoReconnect = 0;
+  let player = null;        // 유튜브 플레이어
+  let current = null;       // 지금 재생 중인 곡
+  let continuous = null;    // 연속 재생 중이면 { moods, minutes, endAt, queue, heard }
+  let requesting = false;   // 곡을 찾는 중
+  let quietTimer = null;    // 곡이 나오는 동안 DJ가 끼어들지 않게 하는 타이머
+  let clockTimer = null;
+  let lastTyped = "";
+  const played = new Set(); // 이번 방송에서 이미 튼 곡
+  const memory = [];        // DJ가 다시 연결될 때 기억할 대화
+
+  const youtubeReady = new Promise((resolve) => {
+    if (window.YT && window.YT.Player) resolve();
+    else window.onYouTubeIframeAPIReady = resolve;
+  });
+
+  // ---------- 오늘의 방송 정보 ----------
+  const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
+
+  function todayText(d = new Date()) {
+    return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${WEEKDAYS[d.getDay()]}요일`;
+  }
+
+  function timeOfDay(d = new Date()) {
+    const h = d.getHours();
+    const label = h < 5 ? "새벽" : h < 9 ? "아침" : h < 12 ? "오전" : h < 14 ? "점심 무렵" : h < 17 ? "오후" : h < 20 ? "저녁" : "밤";
+    const hour12 = h % 12 === 0 ? 12 : h % 12;
+    return `${label} (${h < 12 ? "오전" : "오후"} ${hour12}시 ${d.getMinutes()}분)`;
+  }
+
+  // 교회 절기: 오늘이 절기이거나 3주 안에 다가오는 절기를 알려 준다
+  function easter(y) {
+    const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4;
+    const f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30;
+    const i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+    return new Date(y, Math.floor((h + l - 7 * m + 114) / 31) - 1, ((h + l - 7 * m + 114) % 31) + 1);
+  }
+  const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+  function nthSunday(y, month, n) {
+    const first = new Date(y, month, 1);
+    return addDays(first, ((7 - first.getDay()) % 7) + (n - 1) * 7);
+  }
+  function churchEvents(y) {
+    const e = easter(y);
+    const christmas = new Date(y, 11, 25);
+    const advent = addDays(christmas, -(christmas.getDay() || 7) - 21);
+    return [
+      { name: "신년", date: new Date(y, 0, 1) },
+      { name: "사순절 시작(재의 수요일)", date: addDays(e, -46) },
+      { name: "종려주일", date: addDays(e, -7) },
+      { name: "부활절", date: e },
+      { name: "성령강림주일", date: addDays(e, 49) },
+      { name: "맥추감사주일(많은 한국 교회가 7월 첫째 주일에 지킴)", date: nthSunday(y, 6, 1) },
+      { name: "추수감사주일(많은 한국 교회가 11월 셋째 주일에 지킴)", date: nthSunday(y, 10, 3) },
+      { name: "대림절 시작", date: advent },
+      { name: "성탄절", date: christmas },
+      { name: "송구영신", date: new Date(y, 11, 31) },
+    ];
+  }
+  function churchSeason(now = new Date()) {
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const y = today.getFullYear();
+    const parts = [];
+    const lentStart = addDays(easter(y), -46), easterDay = easter(y);
+    const adventStart = churchEvents(y)[7].date;
+    if (today >= lentStart && today < easterDay) parts.push("지금은 사순절 기간입니다");
+    if (today >= adventStart && today < new Date(y, 11, 25)) parts.push("지금은 대림절 기간입니다");
+    const events = [...churchEvents(y), ...churchEvents(y + 1)];
+    const todayEvent = events.find((ev) => +ev.date === +today);
+    if (todayEvent) parts.push(`오늘은 ${todayEvent.name}입니다`);
+    const next = events.filter((ev) => ev.date > today).sort((a, b) => a.date - b.date)[0];
+    const days = next ? Math.round((next.date - today) / 86400000) : 999;
+    if (next && days <= 21) parts.push(`다가오는 절기: ${next.name}, ${next.date.getMonth() + 1}월 ${next.date.getDate()}일 (${days}일 뒤)`);
+    return parts.length ? parts.join(" / ") : "특별한 절기 없음";
+  }
+
+  // 날씨: 위치를 허락하면 그 위치, 아니면 서울 기준 (Open-Meteo, 키 필요 없음)
+  const WEATHER = {
+    0: "맑음", 1: "대체로 맑음", 2: "구름 조금", 3: "흐림", 45: "안개", 48: "안개",
+    51: "약한 이슬비", 53: "이슬비", 55: "강한 이슬비", 56: "어는 이슬비", 57: "어는 이슬비",
+    61: "약한 비", 63: "비", 65: "강한 비", 66: "어는 비", 67: "어는 비",
+    71: "약한 눈", 73: "눈", 75: "많은 눈", 77: "싸락눈", 80: "소나기", 81: "소나기", 82: "강한 소나기",
+    85: "눈보라", 86: "강한 눈보라", 95: "뇌우", 96: "우박을 동반한 뇌우", 99: "우박을 동반한 뇌우",
+  };
+  let weatherCache = null;
+
+  function getPosition() {
+    return new Promise((resolve) => {
+      if (!navigator.geolocation) return resolve(null);
+      navigator.geolocation.getCurrentPosition(
+        (p) => resolve({ lat: p.coords.latitude.toFixed(1), lon: p.coords.longitude.toFixed(1), place: "청취자 위치" }),
+        () => resolve(null),
+        { timeout: 5000, maximumAge: 3600000 }
+      );
+    });
+  }
+
+  async function weatherText() {
+    if (weatherCache && Date.now() - weatherCache.at < 30 * 60000) return weatherCache.text;
+    try {
+      const pos = (await getPosition()) || { lat: 37.57, lon: 126.98, place: "서울" };
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${pos.lat}&longitude=${pos.lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=1`;
+      const w = await fetch(url).then((r) => r.json());
+      const c = w.current, d = w.daily;
+      const text = `${pos.place} 기준 ${WEATHER[c.weather_code] || "알 수 없음"}, 지금 ${Math.round(c.temperature_2m)}도 (최고 ${Math.round(d.temperature_2m_max[0])}도, 최저 ${Math.round(d.temperature_2m_min[0])}도, 비 올 확률 ${d.precipitation_probability_max[0]}%)`;
+      weatherCache = { text, at: Date.now() };
+      return text;
+    } catch (e) {
+      console.error("날씨를 가져오지 못했어요", e);
+      return "알 수 없음";
+    }
+  }
+
+  function listenerName() {
+    const n = $("nick").value.trim();
+    return n ? `${n}님` : "청취자님";
+  }
+
+  function previousTalk() {
+    if (!memory.length) return "없음 (오늘 첫 방송)";
+    return memory.slice(-16).join("\n").slice(-1500);
+  }
+
+  async function buildContext() {
+    return {
+      today: todayText(),
+      time_of_day: timeOfDay(),
+      weather: await weatherText(),
+      church_season: churchSeason(),
+      listener_name: listenerName(),
+      previous_talk: previousTalk(),
+      playlist: SONGS.map((s, i) => `${i + 1}. [${s.mood}] ${s.artist} - ${s.title}`).join("\n"),
+    };
+  }
+
+  // ---------- 화면 ----------
+  function setStatus(text, mode) {
+    $("status").textContent = text;
+    document.body.dataset.mode = mode || "";
+  }
+
+  function addLine(kind, text) {
+    const li = document.createElement("li");
+    li.className = kind;
+    li.textContent = text;
+    $("log").appendChild(li);
+    $("log").scrollTop = $("log").scrollHeight;
+    memory.push(`${kind === "dj" ? "바나바" : kind === "me" ? "청취자" : "곡"}: ${text}`);
+  }
+
+  function setTyping(enabled, placeholder) {
+    $("typeInput").disabled = !enabled;
+    $("typeForm").querySelector("button").disabled = !enabled;
+    $("typeInput").placeholder = placeholder || "말 대신 글로 보내기";
+  }
+
+  function renderSongList() {
+    const groups = {};
+    SONGS.forEach((s, i) => {
+      s.mood.split(",").map((m) => m.trim()).forEach((m) => {
+        (groups[m] = groups[m] || []).push({ ...s, no: i + 1 });
+      });
+    });
+    $("songsSummary").textContent = `오늘의 찬양 목록 (${SONGS.length}곡)`;
+    $("songList").innerHTML = Object.entries(groups).map(([mood, list]) => `
+      <div class="mood-group">
+        <h4>${mood} · ${list.length}곡</h4>
+        <ol>${list.map((s) => `<li>${s.title} <span>— ${s.artist}</span></li>`).join("")}</ol>
+      </div>`).join("");
+  }
+
+  // ---------- 곡 찾기 ----------
+  const simplify = (t) => (t || "").toLowerCase().replace(/[\s()\[\]·.,'’\-_&]/g, "");
+
+  function findInPlaylist({ song_id, title }) {
+    const key = simplify(title);
+    const byId = SONGS[parseInt(song_id, 10) - 1];
+    if (byId && (!key || simplify(byId.title).includes(key.slice(0, 4)) || key.includes(simplify(byId.title).slice(0, 4)))) {
+      return byId;
+    }
+    return SONGS.find((s) => key && (simplify(s.title).includes(key) || key.includes(simplify(s.title))));
+  }
+
+  // 목록에 없는 곡: 유튜브에서 검색해 공식 채널 우선, 없으면 조회수 최고 영상을 고른다
+  async function searchYouTube(title, artist) {
+    const key = SETTINGS.youtubeApiKey;
+    if (!key) return null;
+    try {
+      const q = encodeURIComponent(`${artist} ${title}`.trim());
+      const found = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoEmbeddable=true&maxResults=10&q=${q}&key=${key}`).then((r) => r.json());
+      const ids = (found.items || []).map((it) => it.id.videoId).join(",");
+      if (!ids) return null;
+      const info = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${ids}&key=${key}`).then((r) => r.json());
+      const seconds = (d) => { const m = d.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/) || []; return (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0); };
+      const exclude = /모음|연속|메들리|medley|playlist|플레이리스트|시간/i;
+      const videos = (info.items || []).map((v) => ({
+        videoId: v.id,
+        videoTitle: v.snippet.title,
+        channel: v.snippet.channelTitle,
+        views: +v.statistics.viewCount || 0,
+        seconds: seconds(v.contentDetails.duration),
+      })).filter((v) => v.seconds > 0 && v.seconds <= 720 && !exclude.test(v.videoTitle));
+      const names = [artist, ...(artist.match(/\(([^)]+)\)/g) || []), artist.replace(/\(.*?\)/g, "")].map(simplify).filter(Boolean);
+      const official = videos.filter((v) => names.some((n) => simplify(v.channel).includes(n)));
+      const pick = (official.length ? official : videos).sort((a, b) => b.views - a.views)[0];
+      return pick ? { ...pick, title, artist } : null;
+    } catch (e) {
+      console.error("유튜브 검색 실패", e);
+      return null;
+    }
+  }
+
+  // ---------- 유튜브 재생 ----------
+  async function loadVideo(song) {
+    song = { ...song };
+    current = song;
+    played.add(song.videoId);
+    $("npMood").textContent = song.mood || "찬양";
+    $("npTitle").textContent = song.title;
+    $("npArtist").textContent = song.artist;
+    $("np").hidden = false;
+    addLine("song", `♪ ${song.artist} – ${song.title}`);
+    await youtubeReady;
+    if (!player) {
+      player = new YT.Player("yt", {
+        videoId: song.videoId,
+        playerVars: { autoplay: 1, playsinline: 1, rel: 0 },
+        events: {
+          onReady: (e) => e.target.playVideo(),
+          onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED) songEnded(); },
+          onError: () => songEnded(true),
+        },
+      });
+    } else {
+      player.loadVideoById(song.videoId);
+    }
+    // 휴대폰(특히 아이폰)은 소리 있는 자동 재생을 막을 때가 있어, 안 나오면 직접 누르도록 안내한다
+    setTimeout(() => {
+      if (current === song && player.getPlayerState && player.getPlayerState() !== YT.PlayerState.PLAYING) {
+        setStatus("▶ 아래 영상을 한 번 눌러 재생해 주세요", "song");
+      }
+    }, 4000);
+  }
+
+  function stopVideo() {
+    if (player && player.stopVideo) player.stopVideo();
+    current = null;
+    $("np").hidden = true;
+  }
+
+  function songEnded(failed) {
+    if (continuous) nextInQueue();
+    else finishSong(failed);
+  }
+
+  // 곡이 나오는 동안에는 마이크와 DJ 소리를 끄고, DJ가 끼어들지 않게 '듣는 중' 신호를 보낸다
+  function setQuiet(on) {
+    clearInterval(quietTimer);
+    if (!convo) return;
+    convo.setMicMuted(on);
+    convo.setVolume({ volume: on ? 0 : 1 });
+    if (on) quietTimer = setInterval(() => convo && convo.sendUserActivity(), 1000);
+  }
+
+  // ---------- 한 곡 재생 (DJ 연결은 그대로) ----------
+  async function playSong(params) {
+    const song = findInPlaylist(params) || await searchYouTube(params.title, params.artist || "");
+    if (!song || !song.videoId) {
+      signal(`[재생 실패] "${params.title}" 곡을 찾지 못했습니다. 찬양 목록에서 다른 곡을 골라 주세요.`);
+      return;
+    }
+    setQuiet(true);
+    setStatus("♪ 찬양이 흐르고 있어요", "song");
+    $("npLabel").textContent = "NOW PLAYING";
+    $("next").hidden = true;
+    $("skip").textContent = "곡 끝내고 DJ와 이야기하기";
+    await loadVideo({ ...song, mood: song.mood || params.mood || "" });
+  }
+
+  function finishSong(failed) {
+    if (!current) return;
+    const song = current;
+    stopVideo();
+    setQuiet(false);
+    signal(failed
+      ? `[재생 실패] "${song.title}" 영상을 재생할 수 없습니다. 목록에서 다른 곡을 골라 주세요.`
+      : `[곡 종료] ${song.artist}의 "${song.title}" 재생이 끝났습니다.`);
+  }
+
+  // ---------- 연속 재생 (DJ는 잠시 쉰다) ----------
+  function shuffle(list) {
+    const a = [...list];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function startContinuous({ mood, minutes, song_ids }) {
+    const moods = (mood || "위로").split(",").map((m) => m.trim()).filter(Boolean);
+    const mins = Math.min(Math.max(parseInt(minutes, 10) || 20, 5), 120);
+    const chosen = (song_ids || "").split(",").map((n) => SONGS[parseInt(n, 10) - 1]).filter(Boolean);
+    const matches = SONGS.filter((s) => !chosen.includes(s) && moods.some((m) => s.mood.includes(m)));
+    const fresh = matches.filter((s) => !played.has(s.videoId));
+    const queue = [...chosen, ...shuffle(fresh), ...shuffle(matches.filter((s) => played.has(s.videoId)))];
+    continuous = { moods, minutes: mins, endAt: Date.now() + mins * 60000, queue, heard: [] };
+
+    // DJ의 마무리 인사가 다 나간 뒤 연결을 잠시 쉬고 찬양을 시작한다
+    setTimeout(() => {
+      pauseDJ();
+      setStatus(`♪ ${moods.join("·")} 찬양 ${mins}분, DJ는 잠시 쉬는 중`, "song");
+      setTyping(false, "DJ를 부르면 다시 이야기할 수 있어요");
+      $("npLabel").textContent = "연속 재생";
+      $("next").hidden = false;
+      $("skip").textContent = "DJ 부르기";
+      clearInterval(clockTimer);
+      clockTimer = setInterval(updateClock, 1000);
+      nextInQueue();
+    }, 1800);
+  }
+
+  function updateClock() {
+    if (!continuous) return clearInterval(clockTimer);
+    const left = Math.max(0, Math.round((continuous.endAt - Date.now()) / 1000));
+    $("npLabel").textContent = `연속 재생 · 남은 시간 ${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
+  }
+
+  function nextInQueue() {
+    if (!continuous) return;
+    const song = continuous.queue.shift();
+    if (!song || Date.now() >= continuous.endAt) {
+      endContinuous(`[다시 연결] 연속 재생 ${continuous.minutes}분이 끝났습니다. 들은 곡: ${continuous.heard.join(", ") || "없음"}`);
+      return;
+    }
+    continuous.heard.push(song.title);
+    loadVideo({ ...song });
+  }
+
+  function endContinuous(reason) {
+    if (!continuous) return;
+    continuous = null;
+    clearInterval(clockTimer);
+    stopVideo();
+    setStatus("DJ 바나바를 다시 부르는 중…", "connecting");
+    connect(reason);
+  }
+
+  // ---------- DJ 연결 ----------
+  const clientTools = {
+    play_song: (params) => {
+      // DJ가 같은 곡을 여러 번 요청해도 한 번만 재생한다
+      if (current || requesting || continuous) return "이미 곡이 재생 중입니다. 다시 호출하지 말고 skip_turn으로 조용히 기다리세요.";
+      requesting = true;
+      playSong(params).finally(() => { requesting = false; });
+      return "재생 중입니다. 지금 바로 skip_turn을 호출하고, [곡 종료] 신호가 올 때까지 아무 말도 하지 마세요.";
+    },
+    play_playlist: (params) => {
+      if (continuous) return "이미 연속 재생 중입니다. skip_turn으로 기다리세요.";
+      startContinuous(params);
+      return "연속 재생을 시작합니다. 방송 연결은 잠시 쉬었다가 끝나면 다시 이어집니다. 지금 바로 skip_turn을 호출하세요.";
+    },
+  };
+
+  async function connect(signalText) {
+    const seq = ++sessionSeq;
+    try {
+      const session = await ElevenLabsClient.Conversation.startSession({
+        agentId: SETTINGS.agentId,
+        dynamicVariables: await buildContext(),
+        clientTools,
+        onMessage: ({ message, role, source }) => {
+          const fromDJ = role === "agent" || source === "ai";
+          if (!fromDJ && (message.startsWith("[") || message === lastTyped)) return;
+          addLine(fromDJ ? "dj" : "me", message);
+        },
+        onModeChange: ({ mode }) => {
+          if (current || continuous) return;
+          setStatus(mode === "speaking" ? "DJ 바나바가 이야기하고 있어요" : "듣고 있어요. 편하게 말씀하세요", mode);
+        },
+        onDisconnect: () => { if (seq === activeSeq) handleDisconnect(); },
+        onError: (message) => console.error("DJ 연결 오류:", message),
+      });
+      if (!onAir) { session.endSession(); return; }
+      convo = session;
+      activeSeq = seq;
+      setTyping(true);
+      if (current) setQuiet(true);
+      else setStatus("듣고 있어요. 편하게 말씀하세요", "listening");
+      if (signalText) session.sendUserMessage(signalText);
+    } catch (e) {
+      console.error(e);
+      setStatus("DJ 부스에 연결하지 못했어요. 잠시 후 다시 시도해 주세요", "");
+      endUI();
+    }
+  }
+
+  function pauseDJ() {
+    activeSeq = 0;
+    clearInterval(quietTimer);
+    const c = convo;
+    convo = null;
+    if (c) c.endSession();
+  }
+
+  // 예상치 못하게 끊기면(최대 방송 시간 등) 한 번 다시 연결해 이어 간다
+  function handleDisconnect() {
+    convo = null;
+    activeSeq = 0;
+    if (!onAir) return;
+    if (Date.now() - lastAutoReconnect < 15000) {
+      setStatus("연결이 끊겼어요. 방송을 다시 시작해 주세요", "");
+      endUI();
+      return;
+    }
+    lastAutoReconnect = Date.now();
+    connect(current ? null : "[다시 연결] 연결이 잠시 끊겼다가 다시 이어졌습니다.");
+  }
+
+  function signal(text) {
+    if (convo) convo.sendUserMessage(text);
+  }
+
+  // ---------- 방송 시작 / 종료 ----------
+  async function startBroadcast() {
+    $("power").disabled = true;
+    setStatus("DJ 부스에 연결하는 중…", "connecting");
+    try {
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (e) {
+      setStatus("마이크를 허용해야 DJ와 이야기할 수 있어요", "");
+      $("power").disabled = false;
+      return;
+    }
+    try { localStorage.setItem("galilee-nick", $("nick").value.trim()); } catch (e) {}
+    onAir = true;
+    document.body.classList.add("live");
+    $("power").textContent = "방송 마치기";
+    await connect("[방송 시작]");
+    $("power").disabled = false;
+  }
+
+  function stopBroadcast() {
+    onAir = false;
+    pauseDJ();
+    endUI();
+  }
+
+  function endUI() {
+    onAir = false;
+    continuous = null;
+    clearInterval(clockTimer);
+    clearInterval(quietTimer);
+    stopVideo();
+    document.body.classList.remove("live");
+    setStatus("방송이 끝났어요. 함께해 주셔서 고마워요", "");
+    $("power").textContent = "방송 시작";
+    $("power").disabled = false;
+    setTyping(false);
+  }
+
+  $("power").addEventListener("click", () => (onAir ? stopBroadcast() : startBroadcast()));
+  $("next").addEventListener("click", () => nextInQueue());
+  $("skip").addEventListener("click", () => {
+    if (continuous) endContinuous(`[다시 연결] 청취자가 연속 재생 중에 DJ를 불렀습니다. 지금까지 들은 곡: ${continuous.heard.join(", ")}`);
+    else finishSong();
+  });
+  $("typeForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const text = $("typeInput").value.trim();
+    if (!text || !convo) return;
+    lastTyped = text;
+    addLine("me", text);
+    if (current) finishSong();
+    convo.sendUserMessage(text);
+    $("typeInput").value = "";
+  });
+
+  try { $("nick").value = localStorage.getItem("galilee-nick") || ""; } catch (e) {}
+  $("today").textContent = todayText();
+  renderSongList();
+</script>
+</body>
+</html>
