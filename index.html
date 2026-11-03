@@ -921,10 +921,58 @@
   // 곡이 나오는 동안에는 마이크와 DJ 소리를 끄고, DJ가 끼어들지 않게 '듣는 중' 신호를 보낸다
   function setQuiet(on) {
     clearInterval(quietTimer);
+    voice.on = !on;
+    if (on) voiceStop();
     if (!convo) return;
     convo.setMicMuted(on || micMuted);
-    convo.setVolume({ volume: on ? 0 : 1 });
+    convo.setVolume({ volume: 0 });   // DJ 목소리는 늘 직접 만든 재생기로 튼다
     if (on) quietTimer = setInterval(() => convo && convo.sendUserActivity(), 1000);
+  }
+
+  // ---------- DJ 목소리 재생기 ----------
+  // 일레븐랩스 기본 재생기는 조각이 도착하는 즉시 틀고 조각마다 따로 샘플링을 바꿔서 휴대폰에서 소리가 뚝뚝 끊긴다.
+  // 그래서 목소리 조각(16kHz PCM)을 직접 받아 0.3초 여유를 두고 이어 붙여 튼다 (기본 재생기는 음량 0).
+  const voice = { ctx: null, next: 0, sources: new Set(), on: true };
+  const CUSHION = 0.3;
+  function voiceUnlock() {
+    // 아이폰은 사용자가 누른 순간에만 소리를 열 수 있어서, 방송 버튼을 누를 때 미리 연다
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!voice.ctx) {
+      try { voice.ctx = new AC({ sampleRate: 16000 }); } catch (e) { voice.ctx = new AC(); }
+    }
+    if (voice.ctx.state !== "running") voice.ctx.resume().catch(() => {});
+    const blank = voice.ctx.createBufferSource();
+    blank.buffer = voice.ctx.createBuffer(1, 1, voice.ctx.sampleRate);
+    blank.connect(voice.ctx.destination);
+    blank.start(0);
+  }
+  function voicePlay(b64) {
+    if (!voice.ctx || !voice.on) return;
+    if (voice.ctx.state !== "running") voice.ctx.resume().catch(() => {});
+    const bin = atob(b64);
+    const n = bin.length >> 1;
+    if (!n) return;
+    const buf = voice.ctx.createBuffer(1, n, 16000);
+    const ch = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) {
+      let v = bin.charCodeAt(2 * i) | (bin.charCodeAt(2 * i + 1) << 8);
+      if (v & 0x8000) v -= 0x10000;
+      ch[i] = v / 32768;
+    }
+    const src = voice.ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(voice.ctx.destination);
+    const now = voice.ctx.currentTime;
+    if (voice.next < now + 0.02) voice.next = now + CUSHION;   // 처음이거나 잠시 끊겼으면 0.3초 모아 두고 시작
+    src.start(voice.next);
+    voice.next += buf.duration;
+    voice.sources.add(src);
+    src.onended = () => voice.sources.delete(src);
+  }
+  function voiceStop() {
+    voice.sources.forEach((s) => { try { s.stop(); } catch (e) {} });
+    voice.sources.clear();
+    voice.next = 0;
   }
 
   // 눌러서 말하기: 버튼으로 마이크를 열고 닫는다 (곡이 나오는 동안에는 늘 닫혀 있다)
@@ -1076,6 +1124,8 @@
           if (seq === activeSeq) handleDisconnect(details, talked);
           else if (!activeSeq) dropped = details || {};
         },
+        onAudio: (b64) => voicePlay(b64),
+        onInterruption: () => voiceStop(),
         onError: (message) => console.error("DJ 연결 오류:", message),
       });
       if (!onAir) { session.endSession(); return; }
@@ -1085,6 +1135,8 @@
       // 마이크는 꺼진 채로 시작한다 — 주변 소리가 DJ의 말을 끊지 않도록 (눌러서 말하기)
       micMuted = true;
       session.setMicMuted(true);
+      session.setVolume({ volume: 0 });   // 기본 재생기는 끄고, 목소리는 voicePlay 로 튼다
+      voice.on = !current;
       setTyping(true);
       if (current) setQuiet(true);
       else setStatus(`DJ ${dj.name}가 방송을 준비하고 있어요…`, "connecting");
@@ -1120,6 +1172,7 @@
     activeSeq = 0;
     clearInterval(quietTimer);
     clearTimeout(waitTimer);
+    voiceStop();
     micMuted = true;
     const c = convo;
     convo = null;
@@ -1147,6 +1200,7 @@
   // ---------- 방송 시작 / 종료 ----------
   async function startBroadcast(signalText) {
     if (onAir) return;
+    voiceUnlock();
     if (continuous) { continuous = null; stopVideo(); }
     onAir = true;
     airStart = Date.now();
@@ -1253,12 +1307,14 @@
   $("power").addEventListener("click", () => (onAir || continuous ? stopAll() : startBroadcast()));
   $("talkBtn").addEventListener("click", () => {
     if (!convo) return;
+    voiceUnlock();
     if (current) finishSong();   // 곡이 나오는 중이면 곡을 끝내고 말하기
     setMic(micMuted);
   });
   $("helpBtn").addEventListener("click", () => { $("helpSheet").hidden = false; });
   $("helpSheet").addEventListener("click", (e) => { if (e.target.id === "helpSheet") $("helpSheet").hidden = true; });
   $("djBtn").addEventListener("click", () => {
+    voiceUnlock();
     if (continuous) endContinuous(`[다시 연결] 청취자가 찬양을 듣다가 DJ를 불렀습니다. 지금까지 들은 곡: ${continuous.heard.join(", ")}`);
     else if (current) finishSong();
     else if (!onAir) startBroadcast();
