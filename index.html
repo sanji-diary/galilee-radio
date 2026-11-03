@@ -390,13 +390,20 @@
   };
   let weatherCache = null;
 
-  function getPosition() {
+  // 위치 권한 창은 띄우지 않는다. 이미 허용된 경우에만 내 위치를 쓰고, 아니면 서울 날씨를 쓴다
+  async function getPosition() {
+    try {
+      const perm = navigator.permissions && await navigator.permissions.query({ name: "geolocation" });
+      if (!perm || perm.state !== "granted") return null;
+    } catch (e) {
+      return null;
+    }
     return new Promise((resolve) => {
-      if (!navigator.geolocation) return resolve(null);
+      setTimeout(() => resolve(null), 3500);
       navigator.geolocation.getCurrentPosition(
         (p) => resolve({ lat: p.coords.latitude.toFixed(1), lon: p.coords.longitude.toFixed(1), place: "청취자 위치" }),
         () => resolve(null),
-        { timeout: 5000, maximumAge: 3600000 }
+        { timeout: 3000, maximumAge: 3600000 }
       );
     });
   }
@@ -670,24 +677,35 @@
 
   async function connect(signalText) {
     const seq = ++sessionSeq;
+    let talked = false;        // 이번 연결에서 DJ가 한마디라도 했는지
+    let dropped = null;        // 연결이 준비되기 전에 끊겼다면 그 사유
     try {
       const session = await ElevenLabsClient.Conversation.startSession({
         agentId: SETTINGS.agentId,
+        // WebSocket 연결은 브라우저가 출처(origin)를 함께 보내서, '이 주소에서만 연결' 잠금을 통과한다
+        connectionType: "websocket",
         dynamicVariables: await buildContext(),
         clientTools,
         onMessage: ({ message, role, source }) => {
           const fromDJ = role === "agent" || source === "ai";
+          if (fromDJ) talked = true;
           if (!fromDJ && (message.startsWith("[") || message === lastTyped)) return;
-          addLine(fromDJ ? "dj" : "me", message);
+          // DJ 말에 섞인 목소리 표정 표시([warm], [laughs] 등)는 자막에서 뺀다
+          const text = fromDJ ? message.replace(/\[[a-z][a-z \-]*\]\s*/gi, "").trim() : message;
+          if (text) addLine(fromDJ ? "dj" : "me", text);
         },
         onModeChange: ({ mode }) => {
           if (current || continuous) return;
           setStatus(mode === "speaking" ? "DJ 바나바가 이야기하고 있어요" : "듣고 있어요. 편하게 말씀하세요", mode);
         },
-        onDisconnect: () => { if (seq === activeSeq) handleDisconnect(); },
+        onDisconnect: (details) => {
+          if (seq === activeSeq) handleDisconnect(details, talked);
+          else if (!activeSeq) dropped = details || {};
+        },
         onError: (message) => console.error("DJ 연결 오류:", message),
       });
       if (!onAir) { session.endSession(); return; }
+      if (dropped) return failConnection(dropped);
       convo = session;
       activeSeq = seq;
       setTyping(true);
@@ -696,8 +714,18 @@
       if (signalText) session.sendUserMessage(signalText);
     } catch (e) {
       console.error(e);
-      setStatus("DJ 부스에 연결하지 못했어요. 잠시 후 다시 시도해 주세요", "");
-      endUI();
+      failConnection({ message: e && e.message });
+    }
+  }
+
+  // 연결에 실패하면 계속 다시 시도하지 않고(마이크 허용 창이 반복되지 않게) 이유를 보여 준다
+  function failConnection(details) {
+    const reason = (details && (details.message || details.reason)) || "";
+    endUI();
+    if (/permission|notallowed|denied/i.test(reason)) {
+      setStatus("마이크를 허용해야 DJ와 이야기할 수 있어요. 브라우저 설정에서 마이크를 허용해 주세요", "");
+    } else {
+      setStatus(`DJ 부스에 연결하지 못했어요. 잠시 후 다시 눌러 주세요${reason ? ` (${reason})` : ""}`, "");
     }
   }
 
@@ -710,13 +738,13 @@
   }
 
   // 예상치 못하게 끊기면(최대 방송 시간 등) 한 번 다시 연결해 이어 간다
-  function handleDisconnect() {
+  function handleDisconnect(details, talked) {
     convo = null;
     activeSeq = 0;
     if (!onAir) return;
-    if (Date.now() - lastAutoReconnect < 15000) {
-      setStatus("연결이 끊겼어요. 방송을 다시 시작해 주세요", "");
-      endUI();
+    // DJ가 한마디도 못 하고 끊겼거나, 방금 다시 연결했는데 또 끊겼으면 다시 시도하지 않는다
+    if (!talked || Date.now() - lastAutoReconnect < 15000) {
+      failConnection(details);
       return;
     }
     lastAutoReconnect = Date.now();
@@ -730,14 +758,8 @@
   // ---------- 방송 시작 / 종료 ----------
   async function startBroadcast() {
     $("power").disabled = true;
-    setStatus("DJ 부스에 연결하는 중…", "connecting");
-    try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
-    } catch (e) {
-      setStatus("마이크를 허용해야 DJ와 이야기할 수 있어요", "");
-      $("power").disabled = false;
-      return;
-    }
+    setStatus("DJ 부스에 연결하는 중… (마이크를 허용해 주세요)", "connecting");
+    // 마이크 권한은 일레븐랩스 연결이 직접 한 번만 묻는다
     try { localStorage.setItem("galilee-nick", $("nick").value.trim()); } catch (e) {}
     onAir = true;
     document.body.classList.add("live");
@@ -785,6 +807,7 @@
   try { $("nick").value = localStorage.getItem("galilee-nick") || ""; } catch (e) {}
   $("today").textContent = todayText();
   renderSongList();
+  weatherText();   // 방송 시작을 누르기 전에 날씨를 미리 받아 둔다
 </script>
 </body>
 </html>
