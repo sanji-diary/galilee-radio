@@ -185,7 +185,20 @@
   .big svg { width: 30px; height: 30px; }
   body.live .big { background: var(--orange); color: #fff; box-shadow: 0 10px 30px -6px rgba(255, 122, 47, .6); }
 
-  .subs { margin-top: 30px; background: var(--bg-2); border-radius: 22px; padding: 14px; }
+  .talk { width: 100%; margin-top: 28px; display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 22px;
+    background: var(--card); border: 2px solid transparent; text-align: left; transition: background .2s, border-color .2s; }
+  .talk:disabled { opacity: .45; }
+  .talk .talk-ic { width: 48px; height: 48px; border-radius: 50%; background: var(--card-2); display: grid; place-items: center; flex: none; }
+  .talk .talk-ic svg { width: 24px; height: 24px; }
+  .talk b { display: block; font-size: 16px; }
+  .talk small { display: block; font-size: 12.5px; color: var(--muted); }
+  .talk.open { background: rgba(255, 122, 47, .16); border-color: var(--orange); }
+  .talk.open .talk-ic { background: var(--orange); animation: pulse 1.4s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,122,47,.6); } 100% { box-shadow: 0 0 0 14px rgba(255,122,47,0); } }
+  .help h4 { margin: 16px 0 4px; font-size: 15px; }
+  .help ol, .help ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .help .panel { max-height: 85vh; overflow-y: auto; }
+  .subs { margin-top: 18px; background: var(--bg-2); border-radius: 22px; padding: 14px; }
   .subs h4 { margin: 0 0 8px; font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: .08em; }
   #log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto; }
   #log:empty::before { content: "방송을 시작하면 DJ와 나눈 이야기가 여기에 자막으로 나와요."; color: var(--muted); font-size: 13px; }
@@ -318,12 +331,16 @@
     <div class="wave" id="wave"></div>
     <div class="times"><span id="tLeft">00:00</span><span id="tRight">LIVE</span></div>
     <div class="controls">
-      <button class="ctl" id="micBtn" aria-label="마이크" data-icon="mic"><small>마이크</small></button>
+      <button class="ctl" id="helpBtn" aria-label="도움말" data-icon="help"><small>도움말</small></button>
       <button class="ctl" id="djBtn" aria-label="DJ와 이야기" data-icon="chat"><small>DJ 부르기</small></button>
       <button class="big" id="power" aria-label="방송 시작" data-icon="play"></button>
       <button class="ctl" id="next" aria-label="다음 곡" data-icon="next"><small>다음 곡</small></button>
       <button class="ctl" id="songsOnly" aria-label="찬양만 듣기" data-icon="queue"><small>찬양만</small></button>
     </div>
+    <button class="talk" id="talkBtn" disabled>
+      <span class="talk-ic" id="talkIc" data-icon="mic"></span>
+      <span><b id="talkT">눌러서 말하기</b><small id="talkS">방송을 시작하면 쓸 수 있어요</small></span>
+    </button>
     <div class="subs">
       <h4>방송 자막</h4>
       <ol id="log"></ol>
@@ -355,6 +372,31 @@
       <p>애칭을 적으면 DJ가 "○○님" 하고 불러 드려요. 비워 두면 "청취자님"이라고 불러요.</p>
       <input id="nick" maxlength="12" placeholder="예: 지은, 김 전도사" autocomplete="off">
       <button class="btn-play" id="nickSave">저장</button>
+    </div>
+  </div>
+  <div class="sheet help" id="helpSheet" hidden>
+    <div class="panel">
+      <h3>방송이 잘 안 될 때</h3>
+      <p>DJ와는 <b>🎙 눌러서 말하기</b>로 이야기해요. 버튼을 누르고 말한 뒤, 다 말했으면 한 번 더 누르세요. 마이크가 꺼져 있는 동안에는 주변 소리가 DJ를 방해하지 않아요. 글로 보내도 돼요.</p>
+      <h4>마이크 허용 창이 계속 떠요</h4>
+      <ul>
+        <li><b>아이폰(사파리)</b>: 주소창 왼쪽 <b>가가</b>(또는 aA) → 웹 사이트 설정 → 마이크 → <b>허용</b></li>
+        <li><b>아이폰 설정</b>: 설정 앱 → Safari → 마이크 → <b>허용</b></li>
+        <li><b>안드로이드(크롬)</b>: 주소창 왼쪽 자물쇠 → 권한 → 마이크 → <b>허용</b></li>
+        <li>홈 화면에 추가한 앱이라면, 설정을 바꾼 뒤 앱을 완전히 닫았다가 다시 열어 주세요.</li>
+      </ul>
+      <h4>블루투스 이어폰</h4>
+      <ul>
+        <li>이어폰을 <b>먼저 연결한 뒤</b> 방송을 시작해 주세요. 방송 중에 연결하면 소리가 휴대폰 스피커로 나올 수 있어요.</li>
+        <li>마이크를 쓰는 동안 블루투스 이어폰은 '통화 모드'로 바뀌어 음질이 조금 낮아질 수 있어요. 정상이에요.</li>
+        <li>소리가 안 나오면 방송을 끄고 이어폰을 다시 연결한 뒤 다시 시작해 주세요.</li>
+      </ul>
+      <h4>DJ가 말을 안 해요</h4>
+      <ul>
+        <li>시끄러운 곳이라면 말하기 버튼을 끈 상태에서 기다려 주세요.</li>
+        <li>와이파이나 데이터 연결을 확인하고, 방송을 껐다가 다시 켜 주세요.</li>
+      </ul>
+      <button class="btn-play" data-close>확인</button>
     </div>
   </div>
   <div class="sheet" id="newsSheet" hidden>
@@ -402,6 +444,7 @@
     book: '<path d="M4 5a2 2 0 012-2h5v17H6a2 2 0 00-2 2zM20 5a2 2 0 00-2-2h-5v17h5a2 2 0 012 2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
     clock: '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
     check: '<path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>',
+    help: '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-1 .6-1.5 1.2-1.5 2.3M12 17h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
   };
   const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[name]}</svg>`;
   function paintIcons(root = document) {
@@ -467,7 +510,9 @@
   let continuous = null;    // 연속 재생 중이면 { moods, minutes, endAt, queue, heard, noDJ }
   let requesting = false;   // 곡을 찾는 중
   let quietTimer = null;    // 곡이 나오는 동안 DJ가 끼어들지 않게 하는 타이머
-  let micMuted = false;
+  let micMuted = true;      // 눌러서 말하기: 평소에는 마이크를 꺼 둔다
+  let micOpenedAt = 0;
+  let waitTimer = null;
   let lastTyped = "";
   let airStart = 0;
   let mode = "";
@@ -736,8 +781,14 @@
     const active = onAir || !!continuous;
     setIcon($("power"), active ? "stop" : "play");
     $("power").setAttribute("aria-label", active ? "방송 마치기" : "방송 시작");
-    setIcon($("micBtn"), micMuted ? "micOff" : "mic");
-    $("micBtn").disabled = !convo;
+    // 눌러서 말하기 버튼
+    const open = !!convo && !micMuted;
+    $("talkBtn").disabled = !convo;
+    $("talkBtn").classList.toggle("open", open);
+    $("talkT").textContent = open ? "듣고 있어요 — 다 말했으면 눌러 주세요" : "눌러서 말하기";
+    $("talkS").textContent = !convo
+      ? (continuous ? "DJ를 부르면 다시 이야기할 수 있어요" : "방송을 시작하면 쓸 수 있어요")
+      : open ? "말이 끝나면 버튼을 한 번 더 누르면 DJ가 대답해요" : "버튼을 누르고 말하거나, 아래에 글로 보내도 돼요";
     $("next").disabled = !current;
     $("djBtn").disabled = !(current || continuous) && !!convo;
     $("songsOnly").disabled = !!continuous;
@@ -876,6 +927,17 @@
     if (on) quietTimer = setInterval(() => convo && convo.sendUserActivity(), 1000);
   }
 
+  // 눌러서 말하기: 버튼으로 마이크를 열고 닫는다 (곡이 나오는 동안에는 늘 닫혀 있다)
+  function setMic(open) {
+    if (!convo) return;
+    micMuted = !open;
+    if (open) micOpenedAt = Date.now();
+    if (!current) convo.setMicMuted(micMuted);
+    if (current || continuous) renderPlayer();
+    else setStatus(listenHint(), open ? "listening" : mode);
+  }
+  const listenHint = () => (micMuted ? "🎙 말하기 버튼을 누르고 이야기해 주세요" : "🎙 듣고 있어요. 편하게 말씀하세요");
+
   // ---------- 한 곡 재생 (DJ 연결은 그대로) ----------
   async function playSong(params) {
     const song = findInPlaylist(params) || await searchYouTube(params.title, params.artist || "");
@@ -893,9 +955,9 @@
     if (!current) return;
     const song = current;
     stopVideo();
-    if (!convo) { setStatus(onAir ? "듣고 있어요. 편하게 말씀하세요" : "방송을 시작해 보세요", onAir ? "listening" : ""); return; }
+    if (!convo) { setStatus(onAir ? listenHint() : "방송을 시작해 보세요", onAir ? "listening" : ""); return; }
     setQuiet(false);
-    setStatus("듣고 있어요. 편하게 말씀하세요", "listening");
+    setStatus(listenHint(), "listening");
     signal(failed
       ? `[재생 실패] "${song.title}" 영상을 재생할 수 없습니다. 목록에서 다른 곡을 골라 주세요.`
       : `[곡 종료] ${song.artist}의 "${song.title}" 재생이 끝났습니다.`);
@@ -988,6 +1050,8 @@
         agentId: dj.agentId,
         // WebSocket 연결은 브라우저가 출처(origin)를 함께 보내서, '이 주소에서만 연결' 잠금을 통과한다
         connectionType: "websocket",
+        // 아이폰에서 블루투스·유선 이어폰 마이크를 우선 쓰게 한다 (소리도 이어폰으로 유지)
+        preferHeadphonesForIosDevices: true,
         dynamicVariables: await buildContext(),
         clientTools,
         onMessage: ({ message, role, source }) => {
@@ -999,8 +1063,14 @@
           if (text) addLine(fromDJ ? "dj" : "me", text);
         },
         onModeChange: ({ mode: m }) => {
+          if (m === "speaking") {
+            talked = true;
+            clearTimeout(waitTimer);
+            // 눌러서 말하기: DJ가 새로 말을 시작하면 열려 있던 마이크를 닫는다
+            if (!micMuted && Date.now() - micOpenedAt > 1500) setMic(false);
+          }
           if (current || continuous) return;
-          setStatus(m === "speaking" ? `DJ ${dj.name}가 이야기하고 있어요` : "듣고 있어요. 편하게 말씀하세요", m);
+          setStatus(m === "speaking" ? `DJ ${dj.name}가 이야기하고 있어요` : listenHint(), m);
         },
         onDisconnect: (details) => {
           if (seq === activeSeq) handleDisconnect(details, talked);
@@ -1012,11 +1082,22 @@
       if (dropped) return failConnection(dropped);
       convo = session;
       activeSeq = seq;
-      micMuted = false;
+      // 마이크는 꺼진 채로 시작한다 — 주변 소리가 DJ의 말을 끊지 않도록 (눌러서 말하기)
+      micMuted = true;
+      session.setMicMuted(true);
       setTyping(true);
       if (current) setQuiet(true);
-      else setStatus("듣고 있어요. 편하게 말씀하세요", "listening");
-      if (signalText) session.sendUserMessage(signalText);
+      else setStatus(`DJ ${dj.name}가 방송을 준비하고 있어요…`, "connecting");
+      if (signalText) {
+        session.sendUserMessage(signalText);
+        // DJ가 20초 넘게 아무 말이 없으면 멈춰 있지 말고 이유를 알려 준다
+        clearTimeout(waitTimer);
+        waitTimer = setTimeout(() => {
+          if (convo === session && !talked && !current && !continuous) {
+            setStatus("DJ가 아직 대답이 없어요. 인터넷 연결을 확인하고 방송을 껐다 켜 주세요 (도움말 ?)", "");
+          }
+        }, 20000);
+      }
     } catch (e) {
       console.error(e);
       failConnection({ message: e && e.message });
@@ -1028,7 +1109,8 @@
     const reason = (details && (details.message || details.reason)) || "";
     stopAll();
     if (/permission|notallowed|denied/i.test(reason)) {
-      setStatus("마이크를 허용해야 DJ와 이야기할 수 있어요. 브라우저 설정에서 마이크를 허용해 주세요", "");
+      setStatus("마이크를 허용해야 DJ와 이야기할 수 있어요. 도움말(?)의 방법으로 마이크를 '허용'으로 바꿔 주세요", "");
+      $("helpSheet").hidden = false;
     } else {
       setStatus(`DJ 부스에 연결하지 못했어요. 잠시 후 다시 눌러 주세요${reason ? ` (${reason})` : ""}`, "");
     }
@@ -1037,6 +1119,8 @@
   function pauseDJ() {
     activeSeq = 0;
     clearInterval(quietTimer);
+    clearTimeout(waitTimer);
+    micMuted = true;
     const c = convo;
     convo = null;
     if (c) c.endSession();
@@ -1167,12 +1251,13 @@
   // 플레이어 버튼
   $("playerBack").addEventListener("click", () => history.length > 1 ? history.back() : go("#/"));
   $("power").addEventListener("click", () => (onAir || continuous ? stopAll() : startBroadcast()));
-  $("micBtn").addEventListener("click", () => {
+  $("talkBtn").addEventListener("click", () => {
     if (!convo) return;
-    micMuted = !micMuted;
-    if (!current) convo.setMicMuted(micMuted);
-    renderPlayer();
+    if (current) finishSong();   // 곡이 나오는 중이면 곡을 끝내고 말하기
+    setMic(micMuted);
   });
+  $("helpBtn").addEventListener("click", () => { $("helpSheet").hidden = false; });
+  $("helpSheet").addEventListener("click", (e) => { if (e.target.id === "helpSheet") $("helpSheet").hidden = true; });
   $("djBtn").addEventListener("click", () => {
     if (continuous) endContinuous(`[다시 연결] 청취자가 찬양을 듣다가 DJ를 불렀습니다. 지금까지 들은 곡: ${continuous.heard.join(", ")}`);
     else if (current) finishSong();
