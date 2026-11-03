@@ -7,6 +7,9 @@
 window.PLAYLIST = [
   {
     "mood": "위로",
+    "dj": [
+      "요한"
+    ],
     "artist": "제이어스(J-US)",
     "title": "Love Letter",
     "videoId": "ZQppjVXpbbA",
@@ -15,6 +18,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "요한"
+    ],
     "artist": "러빔(Luvim)",
     "title": "하나님의 열심",
     "videoId": "QkHKe6bPPE0",
@@ -23,6 +29,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "팀룩워십(Team Luke Worship)",
     "title": "나 주님을 모른다 하여도 His Faithfulness",
     "videoId": "VeuP0yejeYM",
@@ -31,6 +40,10 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바",
+      "요한"
+    ],
     "artist": "GIFTED",
     "title": "사랑한다 말하시네",
     "videoId": "A_SEQKpeHVw",
@@ -39,6 +52,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바울"
+    ],
     "artist": "GIFTED",
     "title": "주의 자녀로 산다는 것은",
     "videoId": "TKSS0P4H2zQ",
@@ -47,6 +63,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "기드온"
+    ],
     "artist": "아가파오 워십(AGAPAO Worship)",
     "title": "Way Maker 길을 만드시는 분",
     "videoId": "VxRZDqbDoMk",
@@ -55,6 +74,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "기드온"
+    ],
     "artist": "WELOVE",
     "title": "나의 꿈, 내 소망",
     "videoId": "0DFgZDvEFIQ",
@@ -63,6 +85,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "기드온"
+    ],
     "artist": "제이어스(J-US)",
     "title": "나를 세상의 빛으로",
     "videoId": "4yEf0DCmObU",
@@ -71,6 +96,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바울"
+    ],
     "artist": "예람워십",
     "title": "지극히 높으신 주",
     "videoId": "WHuCSCApXrQ",
@@ -79,6 +107,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "요한"
+    ],
     "artist": "WELOVE",
     "title": "예수 안에 우리",
     "videoId": "RUTT11_onRk",
@@ -87,6 +118,10 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로, 소망",
+    "dj": [
+      "바나바",
+      "요한"
+    ],
     "artist": "제이어스(J-US)",
     "title": "여호와께 돌아가자",
     "videoId": "kdFH0iSBU9I",
@@ -95,6 +130,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "요한"
+    ],
     "artist": "WELOVE",
     "title": "사랑 중에 사랑",
     "videoId": "GDoarJJezi0",
@@ -103,6 +141,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "홍이삭",
     "title": "하나님의 세계",
     "videoId": "nUTvfKu7q3c",
@@ -111,6 +152,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로, 소망",
+    "dj": [
+      "기드온"
+    ],
     "artist": "WELOVE",
     "title": "모든 생명들아 소리쳐",
     "videoId": "EjcYiIVRI0w",
@@ -119,6 +163,10 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바",
+      "요한"
+    ],
     "artist": "아가파오 워십(AGAPAO Worship)",
     "title": "The Blessing 축복",
     "videoId": "mDK9ZrhJA34",
@@ -127,6 +175,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "소망",
+    "dj": [
+      "바울"
+    ],
     "artist": "레위지파",
     "title": "주 예수 나의 산 소망 Living Hope",
     "videoId": "A1fzdt5kQCY",
@@ -135,6 +186,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "소망",
+    "dj": [
+      "기드온"
+    ],
     "artist": "제이어스(J-US)",
     "title": "성령의 바람",
     "videoId": "PklFusQuQ0Q",
@@ -143,6 +197,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "소망",
+    "dj": [
+      "기드온"
+    ],
     "artist": "넥스트드림",
     "title": "찬양 할렐루야 FOREVER",
     "videoId": "j6tMxKuRKPM",
@@ -151,6 +208,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "소망",
+    "dj": [
+      "바울"
+    ],
     "artist": "아이자야씩스티원(Isaiah6tyOne)",
     "title": "은혜 아래 있네",
     "videoId": "Lea0HuEJIo0",
@@ -159,6 +219,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "소망",
+    "dj": [
+      "바울"
+    ],
     "artist": "리바이츠(Levites)",
     "title": "이 세상 험하고 Jesus Paid It All",
     "videoId": "JfvrrrdJlUI",
@@ -167,6 +230,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "소망",
+    "dj": [
+      "바울"
+    ],
     "artist": "예수전도단",
     "title": "송축해 내 영혼 10,000 Reasons",
     "videoId": "IToU4fzyIBo",
@@ -175,6 +241,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "소망",
+    "dj": [
+      "기드온"
+    ],
     "artist": "제이어스(J-US)",
     "title": "문들아 머리 들어라",
     "videoId": "p3BBGQMSjNc",
@@ -183,6 +252,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "소망",
+    "dj": [
+      "기드온"
+    ],
     "artist": "Leeland",
     "title": "Way Maker",
     "videoId": "iJCV_2H9xD0",
@@ -191,6 +263,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨",
+    "dj": [
+      "바울"
+    ],
     "artist": "GIFTED",
     "title": "내 몸은 구주의 성전이니",
     "videoId": "eJGuXTbpoH4",
@@ -199,6 +274,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨",
+    "dj": [
+      "바울"
+    ],
     "artist": "GIFTED",
     "title": "나는 아버지를 닮았네",
     "videoId": "Nd4YuZsjbGY",
@@ -207,6 +285,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨",
+    "dj": [
+      "바울"
+    ],
     "artist": "GIFTED",
     "title": "주를 바라보며",
     "videoId": "f-GNJSX3VPQ",
@@ -215,6 +296,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨",
+    "dj": [
+      "요한"
+    ],
     "artist": "GIFTED",
     "title": "내 마음을 가득 채운",
     "videoId": "f-GNJSX3VPQ",
@@ -223,6 +307,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨",
+    "dj": [
+      "요한"
+    ],
     "artist": "GIFTED",
     "title": "예수보다 더 큰 사랑",
     "videoId": "Q24wDxaYUaY",
@@ -231,6 +318,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨",
+    "dj": [
+      "요한"
+    ],
     "artist": "GIFTED",
     "title": "주 사랑 놀라와",
     "videoId": "Q24wDxaYUaY",
@@ -239,6 +329,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨",
+    "dj": [
+      "바울"
+    ],
     "artist": "GIFTED",
     "title": "주님의 임재 앞에서",
     "videoId": "qAFtOwLOMLc",
@@ -247,6 +340,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨",
+    "dj": [
+      "기드온"
+    ],
     "artist": "GIFTED",
     "title": "멈출 수 없네",
     "videoId": "qAFtOwLOMLc",
@@ -255,6 +351,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨, 수련회",
+    "dj": [
+      "기드온"
+    ],
     "artist": "GIFTED",
     "title": "일어나라 주의 백성",
     "videoId": "b-wKFZbuCfg",
@@ -263,6 +362,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨",
+    "dj": [
+      "바울"
+    ],
     "artist": "GIFTED",
     "title": "풀은 마르고",
     "videoId": "pE37486bH0s",
@@ -271,6 +373,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨",
+    "dj": [
+      "기드온"
+    ],
     "artist": "GIFTED",
     "title": "승전가",
     "videoId": "GV7w3UE4P8I",
@@ -279,6 +384,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "기쁨",
+    "dj": [
+      "요한"
+    ],
     "artist": "GIFTED",
     "title": "친구야",
     "videoId": "izWMe3ztHdg",
@@ -287,6 +395,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "수련회",
+    "dj": [
+      "요한"
+    ],
     "artist": "알바스천",
     "title": "내 마음을 가득 채운",
     "videoId": "9gd67zbwhew",
@@ -295,6 +406,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "수련회",
+    "dj": [
+      "기드온"
+    ],
     "artist": "아가파오 워십(AGAPAO Worship)",
     "title": "우리 주 안에서 노래하며",
     "videoId": "4gT8osUgz-8",
@@ -303,6 +417,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "수련회",
+    "dj": [
+      "바울"
+    ],
     "artist": "잔치공동체",
     "title": "오직 예수",
     "videoId": "TSM0yPJfpzM",
@@ -311,6 +428,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "수련회",
+    "dj": [
+      "기드온"
+    ],
     "artist": "제이어스(J-US)",
     "title": "성령의 불타는 교회 & 부흥 있으리라",
     "videoId": "y6hW8EiZySc",
@@ -319,6 +439,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "수련회",
+    "dj": [
+      "바울"
+    ],
     "artist": "알바스천",
     "title": "주님의 임재 앞에서",
     "videoId": "ROiE3sKK8Ug",
@@ -327,6 +450,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "수련회",
+    "dj": [
+      "기드온"
+    ],
     "artist": "잔치공동체",
     "title": "멈출 수 없네",
     "videoId": "lku5LXaLVF8",
@@ -335,6 +461,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "수련회",
+    "dj": [
+      "바울"
+    ],
     "artist": "어노인팅(Anointing)",
     "title": "예수 나의 첫사랑 되시네",
     "videoId": "2Vwn5NngKuI",
@@ -343,6 +472,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "수련회",
+    "dj": [
+      "기드온"
+    ],
     "artist": "히스플랜(HisPlan)",
     "title": "Take It All",
     "videoId": "61uY_QDzWd4",
@@ -351,6 +483,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "수련회",
+    "dj": [
+      "기드온"
+    ],
     "artist": "알바스천",
     "title": "Sing Sing Sing",
     "videoId": "WK9O2kZO2Fk",
@@ -359,6 +494,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "수련회",
+    "dj": [
+      "기드온"
+    ],
     "artist": "제이어스(J-US)",
     "title": "나로부터 시작되리",
     "videoId": "lV5MH4j7LZE",
@@ -367,6 +505,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "수련회",
+    "dj": [
+      "바울"
+    ],
     "artist": "알바스천",
     "title": "풀은 마르고",
     "videoId": "-r1lbjWwFBA",
@@ -375,6 +516,10 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바",
+      "요한"
+    ],
     "artist": "황다은",
     "title": "하나님이 너를 엄청 사랑하신대",
     "videoId": "VJoVCjIkKfU",
@@ -383,6 +528,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "요한"
+    ],
     "artist": "어노인팅(Anointing)",
     "title": "너를 사랑한다",
     "videoId": "AE0b-Erh0Dw",
@@ -391,6 +539,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "WAYHOME(웨이홈)",
     "title": "내 이름 아시죠",
     "videoId": "Lyz7p5O6CdY",
@@ -399,6 +550,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "빨간약",
     "title": "여호와는",
     "videoId": "bbhaKJEPp0I",
@@ -407,6 +561,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "잔치공동체(Feast Family)",
     "title": "주의 손이",
     "videoId": "xW5gim_oTjo",
@@ -415,6 +572,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "팀룩워십(Team Luke Worship)",
     "title": "주께 붙들립니다",
     "videoId": "Fii5b6zvM6o",
@@ -423,6 +583,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "WAYHOME(웨이홈)",
     "title": "함께 계셨네",
     "videoId": "p4HJckWAHBY",
@@ -431,6 +594,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "마커스워십(Markers Worship)",
     "title": "거친 길 위를 걸어갈 때도",
     "videoId": "tMjSg5lFFaU",
@@ -439,6 +605,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바울"
+    ],
     "artist": "브라운워십(Brown Worship)",
     "title": "나의 약함은 나의 자랑이요",
     "videoId": "pFAVz5P1POs",
@@ -447,6 +616,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "소진영",
     "title": "나의 한숨을 바꾸셨네",
     "videoId": "H79FL5F4Mak",
@@ -455,6 +627,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "기드온"
+    ],
     "artist": "피아워십(F.I.A)",
     "title": "나는 일어섭니다",
     "videoId": "KS4wNLfGD1s",
@@ -463,6 +638,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "피아워십(F.I.A)",
     "title": "믿음의 기도",
     "videoId": "Zy7ZPSrdmXo",
@@ -471,6 +649,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "GIFTED",
     "title": "오 주여 당신 앞에",
     "videoId": "A9QwIna4A60",
@@ -479,6 +660,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바울"
+    ],
     "artist": "마커스워십(Markers Worship)",
     "title": "믿음과 삶",
     "videoId": "cSu0JoIWP7g",
@@ -487,6 +671,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바울"
+    ],
     "artist": "마커스워십(Markers Worship)",
     "title": "깊어진 삶을 주께",
     "videoId": "KEIUmybsN9U",
@@ -495,6 +682,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바울"
+    ],
     "artist": "아가파오 워십(AGAPAO Worship)",
     "title": "베드로의 고백",
     "videoId": "GU6VfynUTuA",
@@ -503,6 +693,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "기드온"
+    ],
     "artist": "피아워십(F.I.A)",
     "title": "하나님의 부르심",
     "videoId": "ovjWMKsks2Y",
@@ -511,6 +704,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "요한"
+    ],
     "artist": "김상진",
     "title": "너를 선택한다",
     "videoId": "WE_uA9LmQ3Y",
@@ -519,6 +715,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바울"
+    ],
     "artist": "예람워십(YERAM WORSHIP)",
     "title": "주가 일하시네",
     "videoId": "8PEKtpFsWiI",
@@ -527,6 +726,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "위클레시아(WeEcclesia)",
     "title": "우리 살아가는 모든 날들이",
     "videoId": "LumqOmVvOos",
@@ -535,6 +737,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "바나바"
+    ],
     "artist": "원데이워십(Oneday Worship)",
     "title": "하루의 은혜",
     "videoId": "DT1_2QEX4iY",
@@ -543,6 +748,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "위로",
+    "dj": [
+      "요한"
+    ],
     "artist": "워십플로잉(Worship Flowing)",
     "title": "주는 사랑이십니다",
     "videoId": "ZbY4hQIPsQs",
@@ -551,6 +759,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "기드온"
+    ],
     "artist": "Brandon Lake",
     "title": "Gratitude",
     "videoId": "dQdfs5S6jyA",
@@ -559,6 +770,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "바나바"
+    ],
     "artist": "UPPERROOM",
     "title": "Give Me Jesus",
     "videoId": "YEenBiBh91A",
@@ -567,6 +781,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "요한"
+    ],
     "artist": "Bethel Music",
     "title": "King of My Heart",
     "videoId": "pomqj7acJc4",
@@ -575,6 +792,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "기드온"
+    ],
     "artist": "Phil Wickham",
     "title": "Battle Belongs",
     "videoId": "qtvQNzPHn-w",
@@ -583,6 +803,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "요한"
+    ],
     "artist": "Bethel Music",
     "title": "Here Is Love",
     "videoId": "oQ0eRxuHSNY",
@@ -591,6 +814,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "요한"
+    ],
     "artist": "Jonathan Ogden",
     "title": "Friend",
     "videoId": "XIEStVUthvo",
@@ -599,6 +825,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "요한"
+    ],
     "artist": "Bethel Music",
     "title": "Homecoming",
     "videoId": "TM-L-L7OD_A",
@@ -607,6 +836,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "바울"
+    ],
     "artist": "Keith & Kristyn Getty(CityAlight)",
     "title": "Yet Not I But Through Christ In Me",
     "videoId": "hwc2d1Xt8gM",
@@ -615,6 +847,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "바나바"
+    ],
     "artist": "Strings & Heart",
     "title": "evergreen love",
     "videoId": "QJBm_SE4fC0",
@@ -623,6 +858,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "바나바"
+    ],
     "artist": "Ryan Stevenson",
     "title": "Blinded",
     "videoId": "Nd86bE9anJo",
@@ -631,6 +869,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "요한"
+    ],
     "artist": "Pauline Zoe Park",
     "title": "Sunflower",
     "videoId": "QEHvq-58IvE",
@@ -639,6 +880,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "기드온"
+    ],
     "artist": "Forrest Frank",
     "title": "YOUR WAY'S BETTER",
     "videoId": "T1LRsp8qBY0",
@@ -647,6 +891,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "기드온"
+    ],
     "artist": "Forrest Frank",
     "title": "CELEBRATION",
     "videoId": "1I2AMD12FTE",
@@ -655,6 +902,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "바나바"
+    ],
     "artist": "Strings & Heart",
     "title": "empty airport",
     "videoId": "TaMZj9xv-A4",
@@ -663,6 +913,9 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "요한"
+    ],
     "artist": "WELOVE",
     "title": "As I Am",
     "videoId": "S4g2dDoavB4",
@@ -671,10 +924,57 @@ window.PLAYLIST = [
   },
   {
     "mood": "외국",
+    "dj": [
+      "바울"
+    ],
     "artist": "Forrest Frank",
     "title": "Come Thou Fount",
     "videoId": "sbNTxBDKfD0",
     "videoTitle": "Forrest Frank - Come Thou Fount",
     "channel": "Forrest Frank"
+  },
+  {
+    "mood": "위로, 소망",
+    "dj": [
+      "기드온"
+    ],
+    "artist": "히즈윌(HisWill)",
+    "title": "광야를 지나며",
+    "videoId": "1UBsTYjh91Y",
+    "videoTitle": "히즈윌 3집 '광야를 지나며' (가사, Eng sub.)",
+    "channel": "히즈윌 HisWill Official"
+  },
+  {
+    "mood": "소망",
+    "dj": [
+      "기드온"
+    ],
+    "artist": "김대환",
+    "title": "아무것도 두려워 말라",
+    "videoId": "hF6p9TVVPRs",
+    "videoTitle": "아무것도 두려워말라 by 김대환",
+    "channel": "Beecompany 비컴퍼니"
+  },
+  {
+    "mood": "소망",
+    "dj": [
+      "바울"
+    ],
+    "artist": "마커스워십(Markers Worship)",
+    "title": "오직 예수뿐이네",
+    "videoId": "gfNH21Q9tOk",
+    "videoTitle": "오직 예수뿐이네 - 마커스워십 (Official) | Only Jesus",
+    "channel": "MARKERS WORSHIP"
+  },
+  {
+    "mood": "위로",
+    "dj": [
+      "바울"
+    ],
+    "artist": "손경민",
+    "title": "은혜",
+    "videoId": "pZuW2CV0mXY",
+    "videoTitle": "은혜 - 손경민,  Grace - Son KyungMin  (햇살콩 일러스트 & 캘리)",
+    "channel": "손경민 김정희Son Kyungmin Official"
   }
 ];
